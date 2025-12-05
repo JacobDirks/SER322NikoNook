@@ -360,6 +360,7 @@ public class Jdbc {
         try{
         pstmt= con.prepareStatement(str);
         pstmt.setInt(1, tableNum);
+        rs = pstmt.executeQuery();
         System.out.println("=== Reciept For Table " + tableNum + " ===");
         System.out.println("Quantity, Name of Item");
         while(rs.next()){
@@ -392,37 +393,37 @@ public class Jdbc {
         return success;
     }
 
-    public boolean updateServer(int tableNum, int EmployeeID){
-    boolean success = false;
-    String str = "UPDATE Dining_Table SET EmployeeID = ? WHERE TableID = ?";
-    PreparedStatement psmt = null;
+    public boolean updateServer(int tableNum, int EmployeeID) {
+        boolean success = false;
+        String str = "UPDATE Dining_Table SET EmployeeID = ? WHERE TableID = ?";
+        PreparedStatement psmt = null;
 
-    try{
-        psmt= con.prepareStatement(str);
-        psmt.setInt(1, EmployeeID);
-        psmt.setInt(2, tableNum);
-
-        int rows = psmt.executeUpdate();
-        if(rows != 0){
-            System.out.println(rows + " row(s) were updated");
-            success = true;
-        }
-
-    }catch(SQLException e){
-        e.printStackTrace();
-    }finally {
         try{
-            if(psmt != null){
-                psmt.close();
-                psmt = null;
-            }
-        }catch (SQLException e){
-            System.out.println("Error closing psmt");
-            e.printStackTrace();
-        }
-    }
+            psmt= con.prepareStatement(str);
+            psmt.setInt(1, EmployeeID);
+            psmt.setInt(2, tableNum);
 
-    return success;
+            int rows = psmt.executeUpdate();
+            if(rows != 0){
+                System.out.println(rows + " row(s) were updated");
+                success = true;
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(psmt != null){
+                    psmt.close();
+                    psmt = null;
+                }
+            }catch (SQLException e){
+                System.out.println("Error closing psmt");
+                e.printStackTrace();
+            }
+        }
+
+        return success;
     }
 
     public boolean updateIngredients(String name, double quantity){
