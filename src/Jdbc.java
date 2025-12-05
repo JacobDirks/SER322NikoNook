@@ -28,7 +28,7 @@ public class Jdbc {
     }
 
     public boolean tableIDExists(int id) {
-        String str = "SELECT * FROM dining_table WHERE TableID = ?";
+        String str = "SELECT * FROM Dining_Table WHERE TableID = ?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean exists = false;
@@ -70,7 +70,7 @@ public class Jdbc {
     }
 
     public boolean menuExists(String name) {
-        String str = "SELECT * FROM menu WHERE MenuName = ?";
+        String str = "SELECT * FROM Menu WHERE MenuName = ?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean exists = false;
@@ -111,7 +111,7 @@ public class Jdbc {
     }
 
     public boolean tableIsAvailable(int id) {
-        String str = "SELECT * FROM dining_table WHERE TableID = ? AND Status = 'Available'";
+        String str = "SELECT * FROM Dining_Table WHERE TableID = ? AND Status = 'Available'";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean exists = false;
@@ -132,7 +132,7 @@ public class Jdbc {
     }
 
     public boolean seeAvailableTables(int partySize){
-        String str = "SELECT * FROM dining_table WHERE Capacity >= ? AND Status = 'Available'";
+        String str = "SELECT * FROM Dining_Table WHERE Capacity >= ? AND Status = 'Available'";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean success = false;
@@ -174,7 +174,7 @@ public class Jdbc {
     }
 
     public boolean seeOccupiedTables(){
-        String str = "SELECT * FROM dining_table WHERE Status = 'Occupied'";
+        String str = "SELECT * FROM Dining_Table WHERE Status = 'Occupied'";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean success = false;
@@ -214,7 +214,7 @@ public class Jdbc {
     }
 
     public boolean listAllTablesWithAssignedEmployee(){
-        String str = "SELECT TableID, EmployeeID FROM dining_table";
+        String str = "SELECT TableID, EmployeeID FROM Dining_Table";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean success = false;
@@ -353,7 +353,7 @@ public class Jdbc {
 
     public boolean getReciept(int tableNum){
         boolean success = false;
-        String str = "SELECT MQuantity, menu_Item.ItemName, Price FROM Ordered_Item, dining_Table, menu_Item WHERE TableID = ? AND Ordered_Item.OrderID = dining_Table.OrderID AND menu_item.ItemName = Ordered_Item.ItemName";
+        String str = "SELECT MQuantity, Menu_Item.ItemName, Price FROM Ordered_Item, Dining_Table, Menu_Item WHERE TableID = ? AND Ordered_Item.OrderID = Dining_Table.OrderID AND Menu_Item.ItemName = Ordered_Item.ItemName";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
@@ -394,7 +394,7 @@ public class Jdbc {
 
     public boolean updateServer(int tableNum, int EmployeeID){
     boolean success = false;
-    String str = "UPDATE dining_table SET EmployeeID = ? WHERE TableID = ?";
+    String str = "UPDATE Dining_Table SET EmployeeID = ? WHERE TableID = ?";
     PreparedStatement psmt = null;
 
     try{
@@ -541,7 +541,7 @@ public class Jdbc {
 
     public String getMenus(){
         String res = "";
-        String str = "SELECT MenuName FROM MENU";
+        String str = "SELECT MenuName FROM Menu";
 
         try{
             Statement stm = con.createStatement();
@@ -581,7 +581,7 @@ public class Jdbc {
 
     public boolean dropItemFromMenu(String menuName, String itemName){
         boolean success = false;
-        String str = "Drop FROM menu_Connector WHERE ItemName = '?' AND MenuName = ?";
+        String str = "Drop FROM Menu_Connector WHERE ItemName = '?' AND MenuName = ?";
         try{
             PreparedStatement psmt = con.prepareStatement(str);
             psmt.setString(1, itemName);
@@ -654,7 +654,7 @@ public class Jdbc {
 
     public boolean showMenu(String menuName) {
         boolean success = false;
-        String str = "SELECT m.Itemname, m.Description, m.Price, m.Category " +
+        String str = "SELECT m.ItemName, m.Description, m.Price, m.Category " +
                 "FROM Menu_Item m " +
                 "JOIN Menu_Connector mc ON m.ItemName = mc.ItemName " +
                 "WHERE mc.MenuName = ?";
