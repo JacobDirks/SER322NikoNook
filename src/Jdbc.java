@@ -266,7 +266,7 @@ public class Jdbc {
             System.out.println("EmployeeID\tEmployeeName");
             while(rs.next()){
                 System.out.print(rs.getInt("EmployeeID") + "\t");
-                System.out.println(rs.getInt("EmployeeName"));
+                System.out.println(rs.getString("EmployeeName"));
             }
             success = true;
 
@@ -362,10 +362,12 @@ public class Jdbc {
         pstmt.setInt(1, tableNum);
         rs = pstmt.executeQuery();
         System.out.println("=== Reciept For Table " + tableNum + " ===");
-        System.out.println("Quantity, Name of Item");
+        System.out.println("Quantity, Price, Name of Item");
         while(rs.next()){
             String itemName = rs.getString("ItemName");
-            System.out.printf("%d, %f, %-64s\n",rs.getInt("MQuantity"), rs.getFloat("ItemName"), itemName);
+            int quantity = rs.getInt("MQuantity");
+            double price = rs.getDouble("Price");
+            System.out.printf("%d, %.2f, %-64s\n", quantity, price * quantity, itemName);
         }
 
         success = true;
