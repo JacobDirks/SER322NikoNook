@@ -20,6 +20,7 @@ public class Client {
     public void run(String url, String username, String password, String driver) {
         jdbc = new Jdbc(url, username, password, driver);
         scanner = new Scanner(System.in);
+        currentMenu = "Lunch";
 
         while (true) {
             displayMenu();
