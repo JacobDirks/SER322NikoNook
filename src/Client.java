@@ -267,7 +267,7 @@ public class Client {
         else {
             scanner.nextLine();
             System.out.println("Invalid input. Please try again!");
-            return getPartySize();
+            return getIngredientRestockAmount(ingredient, unit);
         }
     }
 
@@ -288,6 +288,7 @@ public class Client {
 
         }
         else {
+            scanner.nextLine();
             System.out.println("Invalid input. Please try again!");
             return getTableID();
         }
@@ -306,20 +307,14 @@ public class Client {
 
     public String getMenuName() {
         // Get menu name from user
-        System.out.println("Please enter the table id for the table you would like to select.");
-        if (scanner.hasNextLine()) {
-            String name = scanner.nextLine();
+        System.out.println("Please enter the name of the menu you would like to select.");
+        String name = scanner.nextLine();
 
-            // ensure menuName is not a duplicate of an existing menu
-            if (!jdbc.menuExists(name)) { // menu name does not already exist
-                return name;
-            } else {
-                System.out.println("Menu name already exists. Please try again!");
-                return getMenuName();
-            }
-        }
-        else {
-            System.out.println("Invalid input. Please try again!");
+        // ensure menuName is not a duplicate of an existing menu
+        if (!jdbc.menuExists(name)) { // menu name does not already exist
+            return name;
+        } else {
+            System.out.println("Menu name already exists. Please try again!");
             return getMenuName();
         }
     }
@@ -327,48 +322,36 @@ public class Client {
     public String getIngredientName() {
         // Get ingredient name from user
         System.out.println("Please enter the ingredient name you would like to update the stock of. Enter \"Done\" when you are done.");
-        if (scanner.hasNextLine()) {
-            String name = scanner.nextLine();
+        String name = scanner.nextLine();
 
-            if (name.equalsIgnoreCase("Done")) {
-                return "Done";
-            }
-
-            // ensure menu item is on the menu
-            if (jdbc.ingredientExists(name)) { // item name does not already exist in menu
-                return name;
-            } else {
-                System.out.printf("%s is not on the menu. Please try again!", name);
-                return getMenuName();
-            }
+        if (name.equalsIgnoreCase("Done")) {
+            return "Done";
         }
-        else {
-            System.out.println("Invalid input. Please try again!");
-            return getMenuName();
+
+        // ensure menu item is on the menu
+        if (jdbc.ingredientExists(name)) { // item name does not already exist in menu
+            return name;
+        } else {
+            System.out.printf("%s is not on the menu. Please try again!", name);
+            return getIngredientName();
         }
     }
 
     public String getMenuItem() {
         // Get item name from user
         System.out.println("Please enter the item name you would like to order. Enter \"Done\" when you are done.");
-        if (scanner.hasNextLine()) {
-            String name = scanner.nextLine();
+        String name = scanner.nextLine();
 
-            if (name.equalsIgnoreCase("Done")) {
-                return "Done";
-            }
-
-            // ensure menu item is on the menu
-            if (jdbc.menuItemIsInMenu(currentMenu, name)) { // item name does not already exist in menu
-                return name;
-            } else {
-                System.out.printf("%s is not on the menu. Please try again!", name);
-                return getMenuName();
-            }
+        if (name.equalsIgnoreCase("Done")) {
+            return "Done";
         }
-        else {
-            System.out.println("Invalid input. Please try again!");
-            return getMenuName();
+
+        // ensure menu item is on the menu
+        if (jdbc.menuItemIsInMenu(currentMenu, name)) { // item name does not already exist in menu
+            return name;
+        } else {
+            System.out.printf("%s is not on the menu. Please try again!", name);
+            return getMenuItem();
         }
     }
 
@@ -384,13 +367,14 @@ public class Client {
             }
             else {
                 System.out.println("Invalid employee id. Please try again!");
-                return getTableID();
+                return getEmployeeID();
             }
 
         }
         else {
+            scanner.nextLine();
             System.out.println("Invalid input. Please try again!");
-            return getTableID();
+            return getEmployeeID();
         }
     }
 }
