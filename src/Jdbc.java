@@ -132,6 +132,7 @@ public class Jdbc {
     }
 
     public boolean seeAvailableTables(int partySize){
+        // TODO: Explicitly say if there are no tables available for the party size, RETURN FALSE IN THIS CASE PLEASE!
         String str = "SELECT * FROM Dining_Table WHERE Capacity >= ? AND Status = 'Available'";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -214,6 +215,7 @@ public class Jdbc {
     }
 
     public boolean listAllTablesWithAssignedEmployee(){
+        // TODO: Fix formatting
         String str = "SELECT TableID, EmployeeID FROM Dining_Table";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -222,7 +224,7 @@ public class Jdbc {
             pstmt = con.prepareStatement(str);
             rs = pstmt.executeQuery();
 
-            System.out.println("Table Number\tEmployee ID");
+            System.out.println("Table Number\tCurrent Employee");
             while(rs.next()){
                 System.out.println(rs.getInt("TableID") + "\t" + rs.getInt("EmployeeID"));
             }
@@ -352,6 +354,7 @@ public class Jdbc {
     }
 
     public boolean getReciept(int tableNum){
+        // TODO: Fix formatting
         boolean success = false;
         String str = "SELECT MQuantity, Menu_Item.ItemName, Price FROM Ordered_Item, Dining_Table, Menu_Item WHERE TableID = ? AND Ordered_Item.OrderID = Dining_Table.OrderID AND Menu_Item.ItemName = Ordered_Item.ItemName";
         PreparedStatement pstmt = null;
@@ -440,6 +443,7 @@ public class Jdbc {
             int rows = psmt.executeUpdate();
 
             if (rows > 0){
+                // TODO: Show new total quantity, not just amount that was just added
                 System.out.println("Ingredient " + name + " updated to quantity " + quantity);
                 success = true;
                 con.commit();
@@ -656,6 +660,7 @@ public class Jdbc {
     }
 
     public boolean showMenu(String menuName) {
+        // TODO: Fix formatting
         boolean success = false;
         String str = "SELECT m.ItemName, m.Description, m.Price, m.Category " +
                 "FROM Menu_Item m " +
@@ -700,6 +705,7 @@ public class Jdbc {
     }
 
     public boolean listAllIngredientStock() {
+        // TODO: List all current ingedients and how much (of what unit) is in stock
         boolean success = false;
 
         return success;
@@ -725,6 +731,7 @@ public class Jdbc {
     }
 
     public boolean ingredientExists(String ingredientName) {
+        //TODO: check if the given ingredient exists in the Ingredient table
         boolean success = false;
 
         return success;

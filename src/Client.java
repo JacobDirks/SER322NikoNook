@@ -82,7 +82,10 @@ public class Client {
         int party_size = getPartySize();
 
         // List all available tables that will fit party
-        jdbc.seeAvailableTables(party_size);
+        if (!jdbc.seeAvailableTables(party_size)) {
+            // No tables were available for the given party size
+            return;
+        }
 
         // Get table to seat them at
         int table = getAvailableTableID();
@@ -332,7 +335,7 @@ public class Client {
         if (jdbc.ingredientExists(name)) { // item name does not already exist in menu
             return name;
         } else {
-            System.out.printf("%s is not on the menu. Please try again!", name);
+            System.out.printf("%s is not on the menu. Please try again!\n", name);
             return getIngredientName();
         }
     }
