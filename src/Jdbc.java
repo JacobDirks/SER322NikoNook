@@ -297,7 +297,7 @@ public class Jdbc {
 
     public boolean addFoodToTable(int tableNum, String itemName, int quantity){
         boolean success = false;
-        String str = "INSERT INTO Ordered_Item (OrderID, ItemName, MQuantity) VALUES ((SELECT OrderID FROM Dining_Table WHERE TableID = ?), '?', ?);";
+        String str = "INSERT INTO Ordered_Item (OrderID, ItemName, MQuantity) VALUES ((SELECT OrderID FROM Dining_Table WHERE TableID = ?), '?', ?)";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
@@ -671,7 +671,7 @@ public class Jdbc {
 
 
             boolean hasItems = false;
-            while(rs.next()); {
+            while(rs.next()) {
                 String itemName = rs.getString("ItemName");
                 String description = rs.getString("Description");
                 double price = rs.getDouble("Price");
