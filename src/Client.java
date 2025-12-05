@@ -106,7 +106,7 @@ public class Client {
         while (true) {
             // List items on current menu
             jdbc.showMenu(currentMenu);
-            String item = getMenuItem();
+            String item = getMenuItem(currentMenu);
             if (item.equalsIgnoreCase("done")) {
                 break;
             }
@@ -208,42 +208,58 @@ public class Client {
         // List out all available menus
         System.out.println(jdbc.getMenus());
         // Get selection from user
-
+        currentMenu = getMenuName();
     }
 
     public void addItemToMenu() {
         // List out all available menus
         System.out.println(jdbc.getMenus());
         // Get selection from user
-        // List out all available items
+        String menuToAddTo = getMenuName();
+        // List out all available items from anywhere
+        jdbc.showAllItems();
         // Get selection from user and add to menu in db
+        String item = getValidItem();
+        jdbc.addItemToMenu(item,  menuToAddTo);
     }
 
     public void removeItemFromMenu() {
         // List out all available menus
         System.out.println(jdbc.getMenus());
-
         // Get selection from user
+        String menuToRemoveFrom = getMenuName();
         // List out all item in the menu
+        jdbc.showMenu(menuToRemoveFrom);
         // Get selection from user and remove from menu in db
-
-        //jdbc.dropItemFromMenu(String menuName, String itemName);
+        String item = getMenuItem(menuToRemoveFrom);
+        jdbc.dropItemFromMenu(menuToRemoveFrom, item);
     }
 
     public void createMenu() {
         // get menu name/ handle
-        String name = getMenuName();
+        String name = getNewMenuName();
+        jdbc.createNewMenu(name);
+
 
         // Continually list out items and have user select which to add to new menu until they are done
+        while (true) {
+            // List items on current menu
+            jdbc.showAllItems();
+            String item = getValidItemNotInMenu(name);
+            if (item.equalsIgnoreCase("done")) {
+                break;
+            }
+            jdbc.addItemToMenu(item, name);
+        }
     }
 
     public void deleteMenu() {
         // List all menus
         System.out.println(jdbc.getMenus());
         // Get selection from user
-
+        String menuToDelete = getMenuName();
         // Remove menu from db
-        //jdbc.dropMenu(<InsertStringHere>);
+        jdbc.dropMenu(menuToDelete);
     }
 
     public int getPartySize() {
@@ -313,12 +329,26 @@ public class Client {
         System.out.println("Please enter the name of the menu you would like to select.");
         String name = scanner.nextLine();
 
+        // ensure menuName exists menu
+        if (jdbc.menuExists(name)) {
+            return name;
+        } else {
+            System.out.println("Invalid menu name. Please try again!");
+            return getMenuName();
+        }
+    }
+
+    public String getNewMenuName() {
+        // Get menu name from user
+        System.out.println("Please enter the name of the new menu.");
+        String name = scanner.nextLine();
+
         // ensure menuName is not a duplicate of an existing menu
         if (!jdbc.menuExists(name)) { // menu name does not already exist
             return name;
         } else {
             System.out.println("Menu name already exists. Please try again!");
-            return getMenuName();
+            return getNewMenuName();
         }
     }
 
@@ -340,7 +370,7 @@ public class Client {
         }
     }
 
-    public String getMenuItem() {
+    public String getMenuItem(String menu) {
         // Get item name from user
         System.out.println("Please enter the item name you would like to order. Enter \"Done\" when you are done.");
         String name = scanner.nextLine();
@@ -350,11 +380,47 @@ public class Client {
         }
 
         // ensure menu item is on the menu
-        if (jdbc.menuItemIsInMenu(currentMenu, name)) { // item name does not already exist in menu
+        if (jdbc.menuItemIsInMenu(menu, name)) { // item name does not already exist in menu
             return name;
         } else {
             System.out.printf("%s is not on the menu. Please try again!", name);
-            return getMenuItem();
+            return getMenuItem(menu);
+        }
+    }
+
+    public String getValidItem() {
+        // Get item name from user
+        System.out.println("Please enter an item name. Enter \"Done\" when you are done.");
+        String name = scanner.nextLine();
+
+        if (name.equalsIgnoreCase("Done")) {
+            return "Done";
+        }
+
+        // ensure menu item is on the menu
+        if (jdbc.menuItemExists(name)) {
+            return name;
+        } else {
+            System.out.printf("%s does not exist. Please try again!", name);
+            return getValidItem();
+        }
+    }
+
+    public String getValidItemNotInMenu(String menu) {
+        // Get item name from user
+        System.out.println("Please enter an item name. Enter \"Done\" when you are done.");
+        String name = scanner.nextLine();
+
+        if (name.equalsIgnoreCase("Done")) {
+            return "Done";
+        }
+
+        // ensure menu item is on the menu
+        if (jdbc.menuItemExists(name) && !jdbc.menuItemIsInMenu(menu, name)) {
+            return name;
+        } else {
+            System.out.printf("%s is already ont he menu, or does not exist. Please try again!", name);
+            return getValidItemNotInMenu(menu);
         }
     }
 

@@ -297,6 +297,7 @@ public class Jdbc {
         return success;
     }
 
+    // TODO: Delete? I think the updateOrder method now handles everything
     public boolean addFoodToTable(int tableNum, String itemName, int quantity){
         boolean success = false;
         String str = "INSERT INTO Ordered_Item (OrderID, ItemName, MQuantity) VALUES ((SELECT OrderID FROM Dining_Table WHERE TableID = ?), '?', ?)";
@@ -732,6 +733,34 @@ public class Jdbc {
 
     public boolean ingredientExists(String ingredientName) {
         //TODO: check if the given ingredient exists in the Ingredient table
+        boolean success = false;
+
+        return success;
+    }
+
+    public boolean addItemToMenu(String itemName, String menuName) {
+        //TODO: add the item to the menu
+        boolean success = false;
+
+        return success;
+    }
+
+    public boolean showAllItems() {
+        //TODO: list out all menu items, even if they are not attached to any menu currently
+        boolean success = false;
+
+        return success;
+    }
+
+    public boolean menuItemExists(String itemName) {
+        //TODO: determine if the given menu item exists in the menu item table
+        boolean success = false;
+
+        return success;
+    }
+
+    public boolean createNewMenu(String menuName) {
+        //TODO: create a new menu with the given name
         boolean success = false;
 
         return success;
