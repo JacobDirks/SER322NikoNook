@@ -246,9 +246,12 @@ public class Client {
     public int getPartySize() {
         System.out.println("Please enter party size: ");
         if (scanner.hasNextInt()) {
-            return scanner.nextInt();
+            int partySize = scanner.nextInt();
+            scanner.nextLine();
+            return partySize;
         }
         else {
+            scanner.nextLine();
             System.out.println("Invalid input. Please try again!");
             return getPartySize();
         }
@@ -257,9 +260,12 @@ public class Client {
     public double getIngredientRestockAmount(String ingredient, String unit) {
         System.out.printf("How many %s of %s do you want to restock?\n", unit, ingredient);
         if (scanner.hasNextDouble()) {
-            return scanner.nextDouble();
+            double restockAmount = scanner.nextDouble();
+            scanner.nextLine();
+            return restockAmount;
         }
         else {
+            scanner.nextLine();
             System.out.println("Invalid input. Please try again!");
             return getPartySize();
         }
@@ -269,6 +275,7 @@ public class Client {
         System.out.println("Please enter the table id for the table you would like to select.");
         if (scanner.hasNextInt()) {
             int id = scanner.nextInt();
+            scanner.nextLine();
 
             // check if id actually exists through jdbc
             if (jdbc.tableIDExists(id)) {
@@ -369,6 +376,7 @@ public class Client {
         System.out.println("Please enter the employee id for the employee you would like to select.");
         if (scanner.hasNextInt()) {
             int id = scanner.nextInt();
+            scanner.nextLine();
 
             // check if id actually exists through jdbc
             if (jdbc.employeeIDExists(id)) {
