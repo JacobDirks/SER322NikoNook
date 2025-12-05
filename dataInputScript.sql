@@ -1,6 +1,6 @@
 INSERT INTO Menu(MenuName)
 VALUES
-('Lunch'),
+('Lunch');
 
 INSERT INTO Menu_Item(ItemName, Description, Price, Category)
 VALUES
