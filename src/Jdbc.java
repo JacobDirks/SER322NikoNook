@@ -1,5 +1,3 @@
-import com.mysql.cj.ServerPreparedQueryTestcaseGenerator;
-
 import java.sql.*;
 
 
