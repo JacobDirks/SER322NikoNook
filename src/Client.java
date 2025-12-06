@@ -176,9 +176,11 @@ public class Client {
             System.out.println("4. Create Menu");
             System.out.println("5. Delete Menu");
             System.out.println("6. Cancel");
+            System.out.print("Enter a number: ");
 
             // THESE ARE THE LEAST IMPORTANT METHODS RN, TRY TO SAVE FOR LAST
             String choice = scanner.nextLine();
+            System.out.println();
             switch (choice) {
                 case "1":
                     changeMenu();
@@ -206,14 +208,14 @@ public class Client {
 
     public void changeMenu() {
         // List out all available menus
-        System.out.println(jdbc.getMenus());
+        jdbc.getMenus();
         // Get selection from user
         currentMenu = getMenuName();
     }
 
     public void addItemToMenu() {
         // List out all available menus
-        System.out.println(jdbc.getMenus());
+        jdbc.getMenus();
         // Get selection from user
         String menuToAddTo = getMenuName();
         // List out all available items from anywhere
@@ -225,7 +227,7 @@ public class Client {
 
     public void removeItemFromMenu() {
         // List out all available menus
-        System.out.println(jdbc.getMenus());
+        jdbc.getMenus();
         // Get selection from user
         String menuToRemoveFrom = getMenuName();
         // List out all item in the menu
@@ -255,7 +257,7 @@ public class Client {
 
     public void deleteMenu() {
         // List all menus
-        System.out.println(jdbc.getMenus());
+        jdbc.getMenus();
         // Get selection from user
         String menuToDelete = getMenuName();
         // Remove menu from db
@@ -263,7 +265,7 @@ public class Client {
     }
 
     public int getPartySize() {
-        System.out.println("Please enter party size: ");
+        System.out.print("Please enter party size: ");
         if (scanner.hasNextInt()) {
             int partySize = scanner.nextInt();
             scanner.nextLine();
@@ -383,7 +385,7 @@ public class Client {
         if (jdbc.menuItemIsInMenu(menu, name)) { // item name does not already exist in menu
             return name;
         } else {
-            System.out.printf("%s is not on the menu. Please try again!", name);
+            System.out.printf("%s is not on the menu. Please try again!\n", name);
             return getMenuItem(menu);
         }
     }
@@ -401,7 +403,7 @@ public class Client {
         if (jdbc.menuItemExists(name)) {
             return name;
         } else {
-            System.out.printf("%s does not exist. Please try again!", name);
+            System.out.printf("%s does not exist. Please try again!\n", name);
             return getValidItem();
         }
     }
@@ -419,7 +421,7 @@ public class Client {
         if (jdbc.menuItemExists(name) && !jdbc.menuItemIsInMenu(menu, name)) {
             return name;
         } else {
-            System.out.printf("%s is already ont he menu, or does not exist. Please try again!", name);
+            System.out.printf("%s is already ont he menu, or does not exist. Please try again!\n", name);
             return getValidItemNotInMenu(menu);
         }
     }
