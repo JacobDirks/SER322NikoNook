@@ -450,7 +450,7 @@ public class Jdbc {
         rs = pstmt.executeQuery();
         System.out.println("===== Receipt For Table " + tableNum + " =====");
         //System.out.println(" Name of Item, Quantity, Total Price");
-        System.out.printf("%-64s %-9s %-5s", "Name of Item", "Quantity", "Total Price");
+        System.out.printf("%-64s %-9s %-5s\n", "Name of Item", "Quantity", "Total Price");
         while(rs.next()){
             int quantity  = rs.getInt("MQuantity");
             String formatted = String.format("%-64s %-9s $%-5s", rs.getString("ItemName"), Integer.toString(quantity), Double.toString(quantity * rs.getDouble("Price")));
